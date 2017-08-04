@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.aisino.apiauth.dao.ApiUserDao">
+	
+	<resultMap id="apiusermap"   type="ApiUser">  
+	    <id property="userid" column="userid"/>  
+	    <result property="username" column="username"/>
+	    <result property="account" column="account"/>  
+	    <result property="password" column="password"/>  
+	    <result property="usertype" column="usertype"/>  
+	    <result property="createdate" column="createdate"/>  
+	    <result property="available" column="available"/> 
+	    <collection property="apis" ofType="ApiRes">  
+	        <id property="id" column="apis.id"/> 
+	        <result property="pid" 			column="apis.pid"/>  
+	        <result property="apiname" column="apis.apiname"/>
+	        <result property="apiurl" column="apis.apiurl"/>
+	        <result property="available" column="apis.available"/>
+	        <result property="createdate" column="apis.createdate"/>
+	    </collection>  
+	</resultMap> 
+	
+	<select id="getUserByAccount"  parameterType="string"   resultMap="apiusermap">
+			SELECT
+				u.userid,
+				u.username,
+				u.account,
+				u.password,
+				u.usertype,
+				date_format(u.createdate, '%Y-%m-%d') "createdate",
+				u.available,
+			  r.id  "apis.id",
+				r.pid "apis.pid",
+				r.apiname "apis.apiname",
+			  r.apiurl  "apis.apiurl",
+				r.available "apis.avaiable",
+				date_format(r.createdate, '%Y-%m-%d') "apis.createdate"
+			FROM
+				aos_api_user u,aos_api_user_res ur,aos_api_res r
+			WHERE
+				u.userid = ur.apiuserid and ur.apiresid = r.id and account = #{account}  and u.available=1 and r.available =1
+	</select>
+
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.aisino.passport.sys.dao.IAosDutydataresDao">
+
+	<select id="findList" parameterType="AosDutydatares" resultType="AosDutydatares" >
+		select 
+				t.dutyid, t.deptid, t.createdate, t.createby, t.id
+			from aos_dutydatares t 
+			
+			where 1 = 1  
+			<if test="dutyid != null and dutyid !=''"> and 
+				t.dutyid = #{dutyid}
+			</if>
+			<if test="deptid != null and deptid !=''"> and 
+				t.deptid = #{deptid}
+			</if>
+			<if test="createdate != null and createdate !=''"> and 
+				t.createdate = #{createdate}
+			</if>
+			<if test="createby != null and createby !=''"> and 
+				t.createby = #{createby}
+			</if>
+			<if test="id != null and id !=''"> and 
+				t.id = #{id}
+			</if>
+			order by t.createdate desc
+	</select>
+
+	<select id="get" parameterType="AosDutydatares" resultType="AosDutydatares" >
+		select 
+				t.dutyid, t.deptid, t.createdate, t.createby, t.id
+			from aos_dutydatares t 
+			
+			where 1 = 1  
+			<if test="dutyid != null and dutyid !=''"> and 
+				t.dutyid = #{dutyid}
+			</if>
+			<if test="deptid != null and deptid !=''"> and 
+				t.deptid = #{deptid}
+			</if>
+			<if test="createdate != null and createdate !=''"> and 
+				t.createdate = #{createdate}
+			</if>
+			<if test="createby != null and createby !=''"> and 
+				t.createby = #{createby}
+			</if>
+			<if test="id != null and id !=''"> and 
+				t.id = #{id}
+			</if>
+	</select>
+
+	<insert id="insert" parameterType="AosDutydatares">
+		insert into aos_dutydatares
+			(id 		<if test="dutyid != null and dutyid !=''"> , dutyid</if>
+		<if test="deptid != null and deptid !=''"> , deptid</if>
+		<if test="createdate != null and createdate !=''"> , createdate</if>
+		<if test="createby != null and createby !=''"> , createby</if>
+
+		)
+		values 			(#{id} 		<if test="dutyid != null and dutyid !=''"> , #{dutyid}</if>
+		<if test="deptid != null and deptid !=''"> , #{deptid}</if>
+		<if test="createdate != null and createdate !=''"> , #{createdate}</if>
+		<if test="createby != null and createby !=''"> , #{createby}</if>
+
+		)
+
+	</insert>
+
+	<update id="update" parameterType="AosDutydatares">
+		update aos_dutydatares 
+			set id   = #{id}
+				<if test="dutyid != null and dutyid !=''"> , dutyid = #{dutyid}</if>
+				<if test="deptid != null and deptid !=''"> , deptid = #{deptid}</if>
+				<if test="createdate != null and createdate !=''"> , createdate = #{createdate}</if>
+				<if test="createby != null and createby !=''"> , createby = #{createby}</if>
+
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="AosDutydatares">
+		delete from aos_dutydatares  where dutyid = #{dutyid}
+	</delete>
+
+</mapper>

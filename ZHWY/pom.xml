@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>zhwy</artifactId>
+	<groupId>org.xzy</groupId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<name>zhwy</name>
+	<description/>
+	<url>http://maven.apache.org</url>
+
+	<!-- 发布构建到公司私�? -->
+	<!--内网地址<url>http://192.168.1.86:8081/nexus/content/repositories/releases/</url>--> 
+	<!--外网地址<url>http://nexus.hbhtxx.com:7200/nexus/content/repositories/releases/</url>--> 
+	<distributionManagement>
+		<repository>
+			<id>nexus-release</id>
+			<name>User Project Release</name>
+			<url>http://nexus.hbhtxx.com:7200/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshot</id>
+			<name>User Project SNAPSHOTS</name>
+			<url>http://nexus.hbhtxx.com:7200/nexus/content/repositories/releases/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<modules>
+		<module>eureka</module>
+		<module>zuul</module>
+		<module>core</module>
+		<module>developer</module>
+		<module>utils</module>
+		<module>passport</module>
+		<module>api-auth</module>
+   		<module>file</module>
+	</modules>
+
+
+	<!-- 使用�?新的spring-boot版本 -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.2.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Brixton.SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

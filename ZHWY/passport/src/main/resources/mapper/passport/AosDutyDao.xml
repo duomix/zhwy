@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.aisino.passport.sys.dao.IAosDutyDao">
+
+	<select id="findList" parameterType="AosDuty" resultType="AosDuty" >
+		select 
+				t.dutyid, t.deptid, t.dutyname, t.createdate, t.createby, t.available,
+				(select  d.deptname  from aos_dept d  where  t.deptid = d.deptid) as pname
+			from aos_duty t 
+			
+			where 1 = 1  
+			<if test="dutyid != null and dutyid !=''"> and 
+				t.dutyid = #{dutyid}
+			</if>
+			<if test="deptid != null and deptid !=''"> and 
+				t.deptid = #{deptid}
+			</if>
+			<if test="dutyname != null and dutyname !=''"> and 
+				t.dutyname like  concat(concat('%',#{dutyname}),'%')
+			</if>
+			<if test="createdate != null and createdate !=''"> and 
+				t.createdate = #{createdate}
+			</if>
+			<if test="createby != null and createby !=''"> and 
+				t.createby = #{createby}
+			</if>
+			<if test="available != null and available !=''"> and 
+				t.available = ${available}
+			</if>
+			order by t.createdate desc
+	</select>
+
+	<select id="get" parameterType="AosDuty" resultType="AosDuty" >
+		select 
+				t.dutyid,
+				t.deptid,
+				t.dutyname, 
+				t.createdate, 
+				t.createby, 
+				t.available,
+				(select  d.deptname  from aos_dept d  where  t.deptid = d.deptid) as pname
+			from aos_duty t 
+			where 1 = 1  
+			<if test="dutyid != null and dutyid !=''"> and 
+				t.dutyid = #{dutyid}
+			</if>
+			<if test="deptid != null and deptid !=''"> and 
+				t.deptid = #{deptid}
+			</if>
+			<if test="dutyname != null and dutyname !=''"> and 
+				t.dutyname = #{dutyname}
+			</if>
+			<if test="createdate != null and createdate !=''"> and 
+				t.createdate = #{createdate}
+			</if>
+			<if test="createby != null and createby !=''"> and 
+				t.createby = #{createby}
+			</if>
+			<if test="available != null and available !=''"> and 
+				t.available = ${available}
+			</if>
+	</select>
+
+	<insert id="insert" parameterType="AosDuty">
+		insert into aos_duty
+			(dutyid 
+		<if test="deptid != null and deptid !=''"> , deptid</if>
+		<if test="dutyname != null and dutyname !=''"> , dutyname</if>
+		<if test="createdate != null and createdate !=''"> , createdate</if>
+		<if test="createby != null and createby !=''"> , createby</if>
+		<if test="available != null and available !=''"> , available</if>
+		)
+		values 			(#{dutyid} 
+		<if test="deptid != null and deptid !=''"> , #{deptid}</if>
+		<if test="dutyname != null and dutyname !=''"> , #{dutyname}</if>
+		<if test="createdate != null and createdate !=''"> , #{createdate}</if>
+		<if test="createby != null and createby !=''"> , #{createby}</if>
+		<if test="available != null and available !=''"> , ${available}</if>
+		)
+
+	</insert>
+
+	<update id="update" parameterType="AosDuty">
+		update aos_duty 
+			set dutyid   = #{dutyid}
+
+				<if test="deptid != null and deptid !=''"> , deptid = #{deptid}</if>
+				<if test="dutyname != null and dutyname !=''"> , dutyname = #{dutyname}</if>
+				<if test="createdate != null and createdate !=''"> , createdate = #{createdate}</if>
+				<if test="createby != null and createby !=''"> , createby = #{createby}</if>
+				<if test="available != null and available !=''"> , available = ${available}</if>
+		where dutyid = #{dutyid}
+	</update>
+
+	<delete id="delete" parameterType="AosDuty">
+		delete from aos_duty  where dutyid = #{dutyid}
+	</delete>
+	
+	<select id="queryDutyTree" parameterType="string" resultType="XHashMap">
+		select   
+			d.dutyid id,
+			d.dutyname name,
+			0 isparent,
+			#{deptid} pid
+		from  aos_duty d
+		where d.deptid = #{deptid} and d.available = 1
+	</select>
+</mapper>

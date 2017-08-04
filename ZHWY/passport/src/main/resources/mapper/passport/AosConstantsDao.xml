@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.aisino.passport.sys.dao.IAosConstantsDao">
+	
+	<!-- 查询字典树 -->
+	<select id="querySystemCon" parameterType="XHashMap" resultType="XHashMap" >
+		select 
+			    (select 
+			            count(1)
+			        from
+			            aos_constants
+			        where
+			            pid = c.id) as leaf_node,
+			    c.id,
+			    c.pid,
+			    c.value as name
+			from
+			    aos_constants c
+			    where 1=1
+			    <if test="pid != null and pid !=''"> and 
+				c.pid = #{pid}
+				</if>
+			    <if test="value != null and value !=''"> and 
+				c.value like '%${value}%'
+				</if>
+	</select>
+	
+	
+	<select id="findList" parameterType="AosConstants" resultType="AosConstants" >
+		select 
+				t.id, t.pid, t.type, t.code, t.value, t.isedit, t.remark, p.value as pname
+			from aos_constants t 
+			left join aos_constants p on t.pid = p.id
+			where 1 = 1  
+			<if test="id != null and id !=''"> and 
+				t.id = #{id}
+			</if>
+			<if test="pid != null and pid !=''"> and 
+				(t.pid = #{pid} or t.id = #{pid})
+			</if>
+			<if test="type != null and type !=''"> and 
+				t.type = #{type}
+			</if>
+			<if test="code != null and code !=''"> and 
+				t.code = #{code}
+			</if>
+			<if test="value != null and value !=''"> and 
+				t.value like  concat(concat('%',#{value}),'%')
+			</if>
+			<if test="isedit != null and isedit !=''"> and 
+				t.isedit = ${isedit}
+			</if>
+	</select>
+
+	<select id="get" parameterType="AosConstants" resultType="AosConstants" >
+		select 
+				t.id, t.pid, t.type, t.code, t.value, t.isedit, t.remark, p.value as pname
+			from aos_constants t 
+			left join aos_constants p on t.pid = p.id
+			where 1 = 1  
+			<if test="id != null and id !=''"> and 
+				t.id = #{id}
+			</if>
+			<if test="pid != null and pid !=''"> and 
+				t.pid = #{pid}
+			</if>
+			<if test="type != null and type !=''"> and 
+				t.type = #{type}
+			</if>
+			<if test="code != null and code !=''"> and 
+				t.code = #{code}
+			</if>
+			<if test="value != null and value !=''"> and 
+				t.value = #{value}
+			</if>
+			<if test="isedit != null and isedit !=''"> and 
+				t.isedit = ${isedit}
+			</if>
+	</select>
+
+	<insert id="insert" parameterType="AosConstants">
+		insert into aos_constants
+			(id 
+		<if test="pid != null and pid !=''"> , pid</if>
+		<if test="type != null and type !=''"> , type</if>
+		<if test="code != null and code !=''"> , code</if>
+		<if test="value != null and value !=''"> , value</if>
+		<if test="isedit != null and isedit !=''"> , isedit</if>
+		<if test="remark != null and  remark !=''"> , remark</if>
+		)
+		values 			(#{id} 
+		<if test="pid != null and pid !=''"> , #{pid}</if>
+		<if test="type != null and type !=''"> , #{type}</if>
+		<if test="code != null and code !=''"> , #{code}</if>
+		<if test="value != null and value !=''"> , #{value}</if>
+		<if test="isedit != null and isedit !=''"> , ${isedit}</if>
+		<if test="remark != null and remark !=''"> , #{remark}</if>
+		)
+
+	</insert>
+
+	<update id="update" parameterType="AosConstants">
+		update aos_constants 
+			set id   = #{id}
+
+				<if test="pid != null and pid !=''"> , pid = #{pid}</if>
+				<if test="type != null and type !=''"> , type = #{type}</if>
+				<if test="code != null and code !=''"> , code = #{code}</if>
+				<if test="value != null and value !=''"> , value = #{value}</if>
+				<if test="isedit != null and isedit !=''"> , isedit = ${isedit}</if>
+				<if test="remark != null and remark !=''"> , remark = #{remark}</if>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="AosConstants">
+		delete from aos_constants  where id = #{id}
+	</delete>
+
+</mapper>
