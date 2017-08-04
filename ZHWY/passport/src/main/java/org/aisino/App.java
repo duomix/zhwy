@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author root
  */
 @SpringBootApplication//默认扫描App类同包以及子包下注解
-@EnableDiscoveryClient//开启发现服务的功能
+//@EnableDiscoveryClient//开启发现服务的功能
 //@EnableCircuitBreaker//注解开启断路器功能
 @EnableTransactionManagement // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
 public class App  extends SpringBootServletInitializer
